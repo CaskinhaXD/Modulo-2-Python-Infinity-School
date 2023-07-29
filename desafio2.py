@@ -12,16 +12,14 @@ def obter_informacoes_endereco(cep):  # Função para obter o CEP
     return  # Retorna o código (Sai da função)
 
   if not cep_formatado.isdigit():  # Verificar se o CEP possui apenas números
-    print("CEP inválido. Certifique-se de digitar apenas números."
-          )  # Se possuir letras envia a mensagem
+    print("CEP inválido. Certifique-se de digitar apenas números.")  # Se possuir letras envia a mensagem
     return  # Retorna o código (Sai da função)
 
   url = f'https://viacep.com.br/ws/{cep_formatado}/json/'  # URL do site para pegar o CEP
   requisicao = requests.get(url)  # Faz a requisição para o CEP
 
   if requisicao.status_code != 200:  # Confere se não deu nenhum erro
-    print("Erro ao obter informações do endereço. Tente novamente mais tarde."
-          )  # Fala que deu erro
+    print("Erro ao obter informações do endereço. Tente novamente mais tarde.")  # Fala que deu erro
     return  # Retorna o código (Sai da função)''
 
   return requisicao.json()  # Retorna a informações do endereço para ser adicionado no dicionário
