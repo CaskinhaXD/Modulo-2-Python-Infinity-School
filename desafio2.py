@@ -2,13 +2,10 @@ import requests  # Importa a API Requests
 
 
 def obter_informacoes_endereco(cep):  # Função para obter o CEP
-  cep_formatado = cep.replace('.', '').replace('-', '').replace(
-      ' ', '')  # Remover eventuais pontos, traços ou espaços do CEP
+  cep_formatado = cep.replace('.', '').replace('-', '').replace(' ', '')  # Remover eventuais pontos, traços ou espaços do CEP
 
   if len(cep_formatado) != 8:  # Verificar se o CEP possui oito caracteres
-    print(
-        "CEP inválido. Certifique-se de digitar exatamente oito caracteres numéricos."
-    )  # Caso não tenha pede para o usuário conferir se está correto
+    print("CEP inválido. Certifique-se de digitar exatamente oito caracteres numéricos.")  # Caso não tenha pede para o usuário conferir se está correto
     return  # Retorna o código (Sai da função)
 
   if not cep_formatado.isdigit():  # Verificar se o CEP possui apenas números
