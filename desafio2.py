@@ -1,42 +1,64 @@
-import requests  # Importa a API Requests
+# Desafio corrigido
 
+# Pre-Def do Desafio
+itens = ['Celular', 'Batedeira', 'Televisão', 'Notebook', 'Aparelo DVD']
+valores = [1000.0, 350.0, 3450.0, 6700.0, 200.0]
 
-def obter_informacoes_endereco(cep):  # Função para obter o CEP
-  cep_formatado = cep.replace('.', '').replace('-', '').replace(' ', '')  # Remover eventuais pontos, traços ou espaços do CEP
+# Resolução
+dic_produtos = dict.fromkeys(itens, valores) # Adiciona os valores no dicionário e cria diconário
 
-  if len(cep_formatado) != 8:  # Verificar se o CEP possui oito caracteres
-    print("CEP inválido. Certifique-se de digitar exatamente oito caracteres numéricos.")  # Caso não tenha pede para o usuário conferir se está correto
-    return  # Retorna o código (Sai da função)
+while True: # Cria um looping
+    nome = input("Digite o nome do produto (Para sair digite 'Sair'): ") # Pede o nome de algum produto ao cliente
+        
+    if nome in dic_produtos: # Confere se o item existe
+        preco = dic_produtos.get(nome) # Pega o preço do item no dicionário
+        print(f"Nome do produto: {nome}") # Envia o nome do produto
+        print(f"Preço do produto: R${preco}") # Envia o proço do produto
+        
+    elif (nome.lower() == "sair"): # Confere se o cliente digitou sair
+        break; # Termina o looping
+    
+    else: # Caso não ocorra nada que está em cima
+        print("Nome inválido.") # Avisa que nome é inválido
+        opcao = input("Deseja adicionar o produto? (Sim/Nao) ") # Pergunta se quer adicionar algum item
+        
+        if (opcao.lower() == "sim"): # Se for sim a escolha roda o código
+            novo_nome = input("Qual o nome do novo produto? ") # Pede um novo nome
+            novo_preco = int(input("Qual o preço do novo produto? ")) # Pede um novo preço
+            
+            dic_produtos.update(novo_nome, novo_preco) # Adiciona ao dicionário
+            
+        else: # Se for não
+            for produto, preco in dic_produtos.items(): # Cria um looping for com 2 váriaveis na seguinte formatação {produto, preço} e pega dentro do dicionário 
+                print(f"Nome: {produto}") # Envia o produto que foi pego dentro do dicionário
+                print(f"Preço: R$ {preco}\n") # Envia o preço que foi pego dentro do dicionário
+            
+# Começa parte final
+# Envia a lista formatada novamente
+for produto, preco in dic_produtos.items(): # Mesma explicação a cima
+    print(f"Nome: {produto}") # Mesma explicação a cima
+    print(f"Preço: R$ {preco}\n") # Mesma explicação a cima
 
-  if not cep_formatado.isdigit():  # Verificar se o CEP possui apenas números
-    print("CEP inválido. Certifique-se de digitar apenas números.")  # Se possuir letras envia a mensagem
-    return  # Retorna o código (Sai da função)
+# Confere se o cliente quer mudar algum preço          
+opcao0 = input("Deseja modificar algum preço (Sim/Nao)? ") # Pergunta se o cliente quer mudar algum preço
+            
+if (opcao0.lower() == "sim"): # Se for sim roda o código
+    while True: # Cria um looping
+        mod_produto = input("Qual produto você deseja modificar? ('Finalizar' para sair) ") # Pergunta qual produto quer modificar
+        
+        if (mod_produto.lower() == "finalizar"):
+            break; # Finaliza o looping
 
-  url = f'https://viacep.com.br/ws/{cep_formatado}/json/'  # URL do site para pegar o CEP
-  requisicao = requests.get(url)  # Faz a requisição para o CEP
-
-  if requisicao.status_code != 200:  # Confere se não deu nenhum erro
-    print("Erro ao obter informações do endereço. Tente novamente mais tarde.")  # Fala que deu erro
-    return  # Retorna o código (Sai da função)''
-
-  return requisicao.json()  # Retorna a informações do endereço para ser adicionado no dicionário
-
-informacoes_endereco = {}  # Dicionário para armazenar os endereços
-
-while True: # Looping infinito
-    cep_informado = input("Digite o CEP (00000-000, 00000.000 ou 00.000-000) ('Fim' para sair): ") # Pede para digitar o CEP ou para sair 
-
-    if cep_informado.lower() == "fim": # Ve se o usuário não quer sair do programa
-        break # Caso queira, finaliza o looping
-    else: # Se o usuário não quiser sair
-        endereco = obter_informacoes_endereco(cep_informado) # cria a variavel endereço levando em conta o CEP informado
-        if endereco: # Verifica se não é nulo
-            informacoes_endereco[cep_informado] = endereco # Adiciona endereço no dicionário
-
-# Exibindo as informações dos endereços formatadas de forma criativa
-print("Informações dos Endereços:\n") # Envia falando que vai enviar as informações
-for cep, endereco in informacoes_endereco.items(): # Cria um looping for com 2 váriaveis na seguinte formatação {cep, endereco} e pega dentro do dicionário 
-    print(f"CEP para Informações (Identificador): {cep}") # Envia o identificador da chave
-    for chave, valor in endereco.items(): # Cria um looping for com 2 váriaveis na seguinte formatação {chave, valor} e pega dentro do dicionário
-        print(f"{chave.capitalize()}: {valor}") # Envia a chave e o valor dessa chave
-    print() # Da espaço
+        elif (dic_produtos.get(mod_produto)): # Ve se o produto existe no dicionário
+            novo_preco = int(input("Qual o novo preço? ")) # Pergunta o novo preço para o cliente
+            
+            dic_produtos.update(mod_produto, novo_preco) # Muda o preço do item
+            
+            for produto, preco in dic_produtos.items(): # Mesma explicação a cima
+                print(f"Nome: {produto}") # Mesma explicação a cima
+                print(f"Preço: R$ {preco}\n") # Mesma explicação a cima
+            
+        else: # Caso não exista
+            print("Produto inválido.") # Envia que o produto é inválido
+else: # Caso seja não
+    print("Obrigado por utilizar o programa.") # Agradece pelo uso
